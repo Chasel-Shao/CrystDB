@@ -1,44 +1,45 @@
 CrystDB
 ==============
-
+![Language](https://img.shields.io/badge/language-Objective--C-orange.svg)
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Chasel-Shao/CrystDB/master/LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/CrystDB.svg?style=flat)](http://cocoapods.org/pods/CrystDB)&nbsp;
 
-基础简介
-==============
-CrystDB 是一个线程安全的对象映射（ORM）数据库，并基于SQLite实现，框架轻量简便、性能高，对于简单模型数据的操作速度要比Realm快很多，是Realm以及CoreData的替代之选。<br/>
+:book: English Documentation | [:book: 中文文档](README-CN.md)
 
 
-性能比较
+Introduce
 ==============
-处理 GithubUser 数据 2000 次耗时统计 (iPhone 6s):
+A thread-safe Object Relational Mapping database that stores objects based on SQLite. However it's lightweight but high performance. Futhermore, when dealing with simple data object, it displays rapid processing rate in regard of the execution of both querying and adding, so it's an alternertive to Realm and Core Data.
+
+Features
+==============
+
+- **Lightwight**: Less soruce files，easily and conveniently to use
+- **Noninvasive**: No need to inherit other base class or use other auxiliary class
+- **Supported Type**: Supported almost all of the types of Objective-C and C
+- **Safe Mapping**: Checks every object types and can be safe in conversion between the SQLite and Objective-C.
+- **High Performance**: Fast storage speed, and the stroage speed of the simple object is 2-4 times fast than Realm, as well as the query speed is also fast than Realm.
+
+Performance
+==============
+The time cost of disposing 2000 times GithubUser objects (iPhone 6s).
 
 ![Benchmark result](https://raw.githubusercontent.com/Chasel-Shao/CrystDB/master/Benchmark/result.png
 )
 
 
-
-功能特性
+Getting Started
 ==============
 
-- **简洁轻量**: 源码文件少，操作方法简单方便
-- **无侵入性**: 无需继承自其他基类和使用其他辅助类
-- **存储支持**: 存储类型支持大多数Objective-C类型和C类型
-- **类型安全**: 检查每个对象类型，能安全的在SQlite类型之间转换
-- **高性能**: 存储速度快，对简单模型对象的存储速度是Realm的2-4倍；2000次的对象查询速度也比Realm快
-
-使用方法
-==============
-
-### 创建或打开数据库
+### Creating and Opening the database
 ```objc
-// 初始化一个默认的数据库:
+// 1. creating an default database:
 CrystLite *db = [CrystLite defaultCrystLite];
 
-// 初始化一个名字为`Person`数据库:
+// 2. creating an database with the name of `Person`:
 CrystLite *db = [[CrystLite alloc] initWithName:@"Person"];
 ```
-### 插入和更新对象
+### Adding and Updating objects
 ```objc
 // Person Model
 @interface Person : NSObject <CrystLite>
@@ -49,22 +50,22 @@ CrystLite *db = [[CrystLite alloc] initWithName:@"Person"];
 @implementation Person
 @end
 
-// 生成Person 对象:
+// 0. Creating an Person object:
 Person *p =  [[Person alloc] init];
 p.uid = 8082;
 p.name = @"Ares";
 p.age = 27;
 
-// 存储Person对象，如果已经存在该Person对象，则执行更新操作:
+// 1. Adding an object，if there have been the object，then update the object:
 BOOL result = [db addOrUpdateObject:p];
 
-// 存储Person对象，如果已经存在该Person对象，则不做处理:
+// 2. Adding an object, if there have benn the object, then return with no processing:
 BOOL result = [db addOrIgnoreObject:p];
 
-// 如果已知该对象已存在于数据库中，并且Person对象实现了`CrystLitePrimaryKey`方法，可以直接更新对象（否则建议使用addOrUpdateObject：方法）:
+// 3. If the object is already in the database and the object also have implemented the method of `CrystLitePrimaryKey`, then you can update the object directly(otherwise it's recommended to use `addOrUpdateObject：` method instead):
 BOOL result = [db updateObject:p];
 
-// 使用事务
+// 4. Use Transaction:
 [db inTransaction:^(BOOL * _Nonnull rollback) {
    BOOL result = [db addOrUpdateObject:p];
    if (result == NO) {
@@ -72,62 +73,62 @@ BOOL result = [db updateObject:p];
    }
 }];  
 ```
-### 查询对象操作
+### Querying objects
 ```objc
-// 查询Person类对象:
+// 1. Querying objects with the Class of this object:
 NSArray *persons = [db queryWithClass:[Person class] condition:nil];
 
-// 使用条件检索，查询Person类对象组:
+// 2. Querying objects with conditions:
 NSArray *persons = [db queryWithClass:[Person class] condition:@"age > 25 or name == 'Ares' "];
 
-// 或者使用格式化参数检索，查询Person类对象组:
+// 3. Querying objects with format conditions:
 NSArray *persons = [db queryWithClass:[Person class] conditions:@"age > %d or name == '%@' ",25,@"Ares"];
 
-// 或者使用SQL的提哦按建检索，查询Person类对象数组:
+// 4. Querying with sql sentence syntax:
 NSArray *persons = [db queryWithClass:[Person class] where:@"age > 8082" orderBy:@"uid desc" limit:@"1,10"];
 ```
-### 删除对象操作
+### Deleting objects
 ```objc
-// 使用条件检索，删除Person类中的对象:
+// 1. Deleting objects with conditions:
 BOOL result = [db deleteClass:[Person class] where:@"name = 'Ares' "];
 
-// 删除Person类中所有的对象:
+// 2. Deleting all the object related to the class:
 BOOL result = [db dropClass:[Person class]];
 
-// 删除数据库中所有的对象:
+// 3. Deleting all the objects in this database:
 BOOL result = [db dropAll];
 
-// 删除的对象，需要实现了`CrystLitePrimaryKey`方法，否则p对象的所有属性值都和数据库中的对象完全相同，否则无法找到并删除该对象:
+// 4. Deleting the object which implement the method of `CrystLitePrimaryKey` and the object has the vlaue of primary key, otherwise it will fail:
 BOOL result = [db deleteObject:p];
 ```
-### 协议方法的使用
+### How to use Protocol
 ```objc
-// 设置主键，用于标识对象的唯一性:
+// 1. Assigning the primary key
 + (NSString *)CrystLitePrimaryKey{
     return @"uid";
 }
 
-// 在对象中实现下面方法，操作对象时采用默认该数据库:
+// 2. Appointing the default database of this object
 + (NSString *)CrystLiteName{
     return @"child.db";
 }
 
-// 设置执行数据库操作的字段白名单:
+// 3. Setting the property whitelist of this object
 + (NSArray *)CrystLiteBlacklistProperties{
     return @[@"uid"，@"name"，@"age"];
 }
 
-// 设置执行数据库操作的字段黑名单:
+// 4. Setting the property blacklist of this object
 + (NSArray<NSString *> *)CrystLiteBlacklistProperties{
     return @[@"age"];
 }
 
-// 如果对象是继承关系，需要解析并操作父类的元素，实现以下方法:
+// 5. If the object has parent class which have properties involved
 + (BOOL)CrystLiteObjectIsHasSuperClass{
     return YES;
 }
 
-// 如果存储的对象中，嵌套子对象属性，推荐使用`CSModel`，并实现以下Coding方法:
+// 6. If there are objects nested in this object, it needs to implement the Coding method, or it's strongly recommended to use `CSModel` to implement the following method:
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     [self cs_encode:aCoder];
 }
@@ -135,36 +136,36 @@ BOOL result = [db deleteObject:p];
     return [self cs_decoder:aDecoder];
 }
 ```
-### 使用方便简洁的分类方法
+### Simpily use the Category method
 ```objc
-// 存储对象，如果已存在该对象则执行更新操作
+// 1. Adding an object，if there have been the object，then update the object:
 BOOL result = [p cs_addOrUpdateToDB];
 
-// 存储对象，如果已存在该对象则不处理
+// 2. Adding an object with no processing if there have benn the object:
 BOOL result = [p cs_addOrIgnoreToDB];
 
-// 按条件检索，查询该类的对象
+// 3. Querying objects with conditions:
 Person *p = [Person cs_queryObjectsWithCondition:@"age > 25"];
 
-// 根据主键来查询对象，对象必须实现了`CrystLitePrimaryKey`方法
+// 4. Querying the object by primary key which must implement the `CrystLitePrimaryKey` method:
 Person *p = [Person cs_queryObjectOnPrimary:@"8082"];
 
-// 查询该类对象在数据库的总数
+// 5. Querying the number of all the objects:
 NSInteger count = [Person cs_queryObjectCount];
 
-// 查询对象在数据库中创建时间
+// 6. Querying the create time of an object:
 NSInteger createTime = [p cs_queryObjectCreateTime];
 
-// 查询对象在数据库中更新时间
+// 7. Querying the update time of an object:
 NSInteger updateTime = [p cs_queryObjectUpdateTime];
 
-// 根据条件检索，删除该类的所有对象
+// 8. Deleting objects with the conditions:
 [Person cs_deleteFromDBWithCondition:@"name = 'Ares' "];
 
-// 从数据库中删除所有对象
+// 9. Deleting all the objects in the database:
 BOOL result = [p cs_deleteFromDB];
   
-// 使用事务方法，操作数据库
+// 10. Executing the transaction in a block
 [Person cs_inTransaction:^(CrystLite *db, BOOL *rollback) {
    BOOL result = [db addOrUpdateObject:p];
    if (result == NO) {
@@ -172,29 +173,29 @@ BOOL result = [p cs_deleteFromDB];
     }
 }];
 ```
-集成
+
+Installation
 ==============
 
-### CocoaPods
+### Installation with CocoaPods
 
-1. 在 Podfile 中添加 `pod 'CrystDB'`
-2. 执行 `pod install` 或 `pod update`
-3. 导入 \<CrystDB/CrystDB.h\>
-
-
-### 手动安装
-
-1. 下载 CrystDB 
-2. 手动导入 CrystDB.h 及其源码文件
+1. Specify the  `pod 'CrystDB'` in your Podfile
+2. Then run the `pod install` or `pod update`
+3. Import the header file \<CrystDB/CrystDB.h\>
 
 
-作者
+### Manual Installation
+
+1. Download the `CrystDB`
+2. Import the CrystDB.h and the relevent source files
+
+
+Author
 ==============
 - [Chasel-Shao](https://github.com/Chasel-Shao) 753080265@qq.com
-- 欢迎咨询以及问题反馈 
 
-许可证
+License
 ==============
-CrystDB 使用 MIT 许可证，详情见 LICENSE 文件。
+CrystDB is released under the MIT license. See LICENSE for details.
 
 

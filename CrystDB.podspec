@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
     * Uses the class to sort object and is not affected by modifying the class structure.
     * Supports filtering by conditions.
                        DESC
-  s.name         = 'CrystDB'
   s.homepage         = 'https://github.com/Chasel-Shao/CrystDB.git'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Chasel-Shao' => '753080265@qq.com' }
@@ -22,10 +21,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'CrystDB/*.{h}'
   s.libraries = 'sqlite3'
   s.frameworks = 'UIKit', 'CoreFoundation'
-
-#    s.subspec 'sqlite3' do |ss|
-#    ss.dependency 'sqlite3'
-#    ss.xcconfig = { 'OTHER_CFLAGS' => '-Wambiguous-macro' }
-#    end
 
 end

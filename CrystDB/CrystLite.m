@@ -32,7 +32,7 @@
 #endif
 
 #define kCrystLitePrefix @"Cryst"
-#define kDefaultCrystLiteName @"CrystLite.sqlite"
+#define kDefaultCrystLiteName @"CrystLite.db"
 #define CSLog(...) printf("%s\n", [[NSString stringWithFormat:__VA_ARGS__] UTF8String])
 
 @interface CrystLite(){
@@ -54,8 +54,15 @@
 static NSMutableDictionary *_singletonDBDict = nil;
 
 + (void)load{
-    NSString *db_path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:kDefaultCrystLiteName];
-    CSLog(@"Default CrystLite Path : %@",db_path);
+    NSString *basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *dbDir = [basePath stringByAppendingPathComponent:kCrystLitePrefix];
+    NSFileManager *mananger = [NSFileManager defaultManager];
+    BOOL isDir;
+    BOOL isExist =  [mananger fileExistsAtPath:dbDir isDirectory:&isDir];
+    if (!isExist && isDir) {
+        [mananger createDirectoryAtPath:dbDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    CSLog(@"Default CrystLite dir : %@",dbDir);
 }
 
 + (instancetype)defaultCrystLite{
@@ -1060,7 +1067,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     sqlite3_shutdown();
     sqlite3_config(SQLITE_CONFIG_SERIALIZED);
     
-    NSString *dbPath =  [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"CrystLite"] stringByAppendingPathComponent:dbName];
+    NSString *dbPath =  [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:kCrystLitePrefix] stringByAppendingPathComponent:dbName];
     
     int result = sqlite3_open(dbPath.UTF8String, &_db);
     if (result == SQLITE_OK) {

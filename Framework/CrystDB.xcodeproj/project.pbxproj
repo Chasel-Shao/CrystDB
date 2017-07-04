@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F321DF321F0B55FD008CEDFA /* CrystDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF311F0B55FD008CEDFA /* CrystDBTests.m */; };
+		F321DF341F0B55FD008CEDFA /* CrystDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D114071F06152400FF82B8 /* CrystDB.framework */; };
+		F321DF3B1F0B5675008CEDFA /* AddOrUpdateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */; };
 		F3D114181F06154E00FF82B8 /* CrystDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114131F06154E00FF82B8 /* CrystDB.h */; };
 		F3D114191F06154E00FF82B8 /* CrystLite.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114141F06154E00FF82B8 /* CrystLite.h */; };
 		F3D1141A1F06154E00FF82B8 /* CrystLite.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114151F06154E00FF82B8 /* CrystLite.m */; };
@@ -15,7 +18,21 @@
 		F3D114231F0615E900FF82B8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D114221F0615E900FF82B8 /* libsqlite3.0.tbd */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F321DF351F0B55FD008CEDFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3D113FE1F06152400FF82B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3D114061F06152400FF82B8;
+			remoteInfo = CrystDB;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		F321DF2F1F0B55FD008CEDFA /* CrystDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrystDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F321DF311F0B55FD008CEDFA /* CrystDBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrystDBTests.m; sourceTree = "<group>"; };
+		F321DF331F0B55FD008CEDFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrUpdateTest.m; sourceTree = "<group>"; };
 		F3D114071F06152400FF82B8 /* CrystDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrystDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D114131F06154E00FF82B8 /* CrystDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystDB.h; sourceTree = "<group>"; };
 		F3D114141F06154E00FF82B8 /* CrystLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystLite.h; sourceTree = "<group>"; };
@@ -27,6 +44,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F321DF2C1F0B55FD008CEDFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F321DF341F0B55FD008CEDFA /* CrystDB.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F3D114031F06152400FF82B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,11 +63,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F321DF301F0B55FD008CEDFA /* CrystDBTests */ = {
+			isa = PBXGroup;
+			children = (
+				F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */,
+				F321DF311F0B55FD008CEDFA /* CrystDBTests.m */,
+				F321DF331F0B55FD008CEDFA /* Info.plist */,
+			);
+			path = CrystDBTests;
+			sourceTree = "<group>";
+		};
 		F3D113FD1F06152400FF82B8 = {
 			isa = PBXGroup;
 			children = (
 				F3D114121F06154E00FF82B8 /* CrystDB */,
 				F3D1141D1F06157700FF82B8 /* Supporting Files */,
+				F321DF301F0B55FD008CEDFA /* CrystDBTests */,
 				F3D114081F06152400FF82B8 /* Products */,
 				F3D114211F0615E800FF82B8 /* Frameworks */,
 			);
@@ -52,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				F3D114071F06152400FF82B8 /* CrystDB.framework */,
+				F321DF2F1F0B55FD008CEDFA /* CrystDBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +138,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F321DF2E1F0B55FD008CEDFA /* CrystDBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F321DF371F0B55FD008CEDFA /* Build configuration list for PBXNativeTarget "CrystDBTests" */;
+			buildPhases = (
+				F321DF2B1F0B55FD008CEDFA /* Sources */,
+				F321DF2C1F0B55FD008CEDFA /* Frameworks */,
+				F321DF2D1F0B55FD008CEDFA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F321DF361F0B55FD008CEDFA /* PBXTargetDependency */,
+			);
+			name = CrystDBTests;
+			productName = CrystDBTests;
+			productReference = F321DF2F1F0B55FD008CEDFA /* CrystDBTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F3D114061F06152400FF82B8 /* CrystDB */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3D1140F1F06152400FF82B8 /* Build configuration list for PBXNativeTarget "CrystDB" */;
@@ -128,6 +183,11 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = chasel;
 				TargetAttributes = {
+					F321DF2E1F0B55FD008CEDFA = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 626KGQ43W3;
+						ProvisioningStyle = Automatic;
+					};
 					F3D114061F06152400FF82B8 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 626KGQ43W3;
@@ -148,11 +208,19 @@
 			projectRoot = "";
 			targets = (
 				F3D114061F06152400FF82B8 /* CrystDB */,
+				F321DF2E1F0B55FD008CEDFA /* CrystDBTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F321DF2D1F0B55FD008CEDFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F3D114051F06152400FF82B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,6 +231,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F321DF2B1F0B55FD008CEDFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F321DF321F0B55FD008CEDFA /* CrystDBTests.m in Sources */,
+				F321DF3B1F0B5675008CEDFA /* AddOrUpdateTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F3D114021F06152400FF82B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -174,7 +251,37 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F321DF361F0B55FD008CEDFA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3D114061F06152400FF82B8 /* CrystDB */;
+			targetProxy = F321DF351F0B55FD008CEDFA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		F321DF381F0B55FD008CEDFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 626KGQ43W3;
+				INFOPLIST_FILE = CrystDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.chasel.CrystDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F321DF391F0B55FD008CEDFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 626KGQ43W3;
+				INFOPLIST_FILE = CrystDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.chasel.CrystDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F3D1140D1F06152400FF82B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -312,6 +419,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F321DF371F0B55FD008CEDFA /* Build configuration list for PBXNativeTarget "CrystDBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F321DF381F0B55FD008CEDFA /* Debug */,
+				F321DF391F0B55FD008CEDFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F3D114011F06152400FF82B8 /* Build configuration list for PBXProject "CrystDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
