@@ -1,6 +1,6 @@
 CrystDB
 ==============
-![Language](https://img.shields.io/badge/language-Objective--C-orange.svg)
+
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Chasel-Shao/CrystDB/master/LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/CrystDB.svg?style=flat)](http://cocoapods.org/pods/CrystDB)&nbsp;
 
@@ -35,15 +35,15 @@ CrystDB 是一个线程安全的对象映射（ORM）数据库，并基于SQLite
 ### 创建或打开数据库
 ```objc
 // 初始化一个默认的数据库:
-CrystLite *db = [CrystLite defaultCrystLite];
+CrystManager *db = [CrystManager defaultCrystDB];
 
 // 初始化一个名字为`Person`数据库:
-CrystLite *db = [[CrystLite alloc] initWithName:@"Person"];
+CrystManager *db = [[CrystManager alloc] initWithName:@"Person"];
 ```
 ### 插入和更新对象
 ```objc
 // Person Model
-@interface Person : NSObject <CrystLite>
+@interface Person : NSObject <CrystDB>
 @property (nonatomic,assign) UInt64 uid;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,assign) NSInteger age;
@@ -63,7 +63,7 @@ BOOL result = [db addOrUpdateObject:p];
 // 存储Person对象，如果已经存在该Person对象，则不做处理:
 BOOL result = [db addOrIgnoreObject:p];
 
-// 如果已知该对象已存在于数据库中，并且Person对象实现了`CrystLitePrimaryKey`方法，可以直接更新对象（否则建议使用addOrUpdateObject：方法）:
+// 如果已知该对象已存在于数据库中，并且Person对象实现了`CrystDBPrimaryKey`方法，可以直接更新对象（否则建议使用addOrUpdateObject：方法）:
 BOOL result = [db updateObject:p];
 
 // 使用事务
@@ -99,33 +99,33 @@ BOOL result = [db dropClass:[Person class]];
 // 删除数据库中所有的对象:
 BOOL result = [db dropAll];
 
-// 删除的对象，需要实现了`CrystLitePrimaryKey`方法，否则p对象的所有属性值都和数据库中的对象完全相同，否则无法找到并删除该对象:
+// 删除的对象，需要实现了`CrystDBPrimaryKey`方法，否则p对象的所有属性值都和数据库中的对象完全相同，否则无法找到并删除该对象:
 BOOL result = [db deleteObject:p];
 ```
 ### 协议方法的使用
 ```objc
 // 设置主键，用于标识对象的唯一性:
-+ (NSString *)CrystLitePrimaryKey{
++ (NSString *)CrystDBPrimaryKey{
     return @"uid";
 }
 
 // 在对象中实现下面方法，操作对象时采用默认该数据库:
-+ (NSString *)CrystLiteName{
++ (NSString *)CrystDBName{
     return @"child.db";
 }
 
 // 设置执行数据库操作的字段白名单:
-+ (NSArray *)CrystLiteBlacklistProperties{
-    return @[@"uid"，@"name"，@"age"];
-}
-
-// 设置执行数据库操作的字段黑名单:
-+ (NSArray<NSString *> *)CrystLiteBlacklistProperties{
++ (NSArray<NSString *> *)CrystDBWhitelistProperties{
     return @[@"age"];
 }
 
+// 设置执行数据库操作的字段黑名单:
++ (NSArray<NSString *> *)CrystDBBlacklistProperties{
+    return @[@"uid"，@"name"，@"age"];
+}
+
 // 如果对象是继承关系，需要解析并操作父类的元素，实现以下方法:
-+ (BOOL)CrystLiteObjectIsHasSuperClass{
++ (BOOL)CrystDBObjectIsHasSuperClass{
     return YES;
 }
 
@@ -148,7 +148,7 @@ BOOL result = [p cs_addOrIgnoreToDB];
 // 按条件检索，查询该类的对象
 Person *p = [Person cs_queryObjectsWithCondition:@"age > 25"];
 
-// 根据主键来查询对象，对象必须实现了`CrystLitePrimaryKey`方法
+// 根据主键来查询对象，对象必须实现了`CrystDBPrimaryKey`方法
 Person *p = [Person cs_queryObjectOnPrimary:@"8082"];
 
 // 查询该类对象在数据库的总数
@@ -167,7 +167,7 @@ NSInteger updateTime = [p cs_queryObjectUpdateTime];
 BOOL result = [p cs_deleteFromDB];
   
 // 使用事务方法，操作数据库
-[Person cs_inTransaction:^(CrystLite *db, BOOL *rollback) {
+[Person cs_inTransaction:^(CrystDB *db, BOOL *rollback) {
    BOOL result = [db addOrUpdateObject:p];
    if (result == NO) {
       *rollback = YES;
@@ -192,7 +192,7 @@ BOOL result = [p cs_deleteFromDB];
 
 作者
 ==============
-- [Chasel-Shao](https://github.com/Chasel-Shao) 753080265@qq.com
+- [Chasel-Shao](https://github.com/Chasel-Shao)
 
 许可证
 ==============

@@ -1,5 +1,5 @@
 //
-// NSObject+Cryst.m
+// NSObject+CrystDB.m
 // Copyright (c) 2017年 Chasel. All rights reserved.
 // https://github.com/Chasel-Shao/CrystDB.git
 //
@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-#import "NSObject+Cryst.h"
+#import "NSObject+CrystDB.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <CommonCrypto/CommonDigest.h>
@@ -30,50 +30,50 @@
 @implementation NSObject (Cryst)
 
 -(BOOL)cs_addOrUpdateToDB{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:self];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:self];
     return [cache addOrUpdateObject:self];
 }
 
 -(BOOL)cs_addOrIgnoreToDB{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:self];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:self];
     return [cache addOrIgnoreObject:self];
 }
 
 +(BOOL)cs_addOrUpdateToDBWithDict:(NSDictionary *)dict{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     return [cache addOrUpdateObject:[self class] withDict:dict];
 }
 
 -(BOOL)cs_deleteFromDB{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:self];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:self];
     BOOL result = [cache deleteObject:self];
     return result;
 }
 +(BOOL)cs_deleteFromDBWithCondition:(NSString *)condition{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     BOOL result = [cache deleteClass:[self class] where:condition];
     return result;
 }
 
-+(void)cs_inTransaction:(void (^)(CrystLite *, BOOL *))block{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
++(void)cs_inTransaction:(void (^)(CrystManager *, BOOL *))block{
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     [cache inTransaction:^(BOOL *rollback) {
         block(cache,rollback);
     }];
 }
 
 +(id)cs_queryObjectOnPrimary:(id)primaryValue{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     return [cache queryWithClass:[self class] onPrimary:primaryValue];
 }
 
 +(NSArray*)cs_queryObjectsWithCondition:(NSString *)condition{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     return [cache queryWithClass:[self class] condition:condition];
 }
 
 +(NSArray*)cs_queryObjectsWithConditions:(NSString *)conditionFromat,...{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     if(conditionFromat != nil){
         va_list ap;
         va_start(ap, conditionFromat);
@@ -86,16 +86,16 @@
 }
 
 +(NSInteger)cs_queryObjectCount{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:[[[self class] alloc] init]];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
     return [cache queryCount:[self class]];
 }
 -(NSInteger)cs_queryObjectUpdateTime{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:self];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:self];
     return [cache queryUpdateTime:self];
 }
 
 -(NSInteger)cs_queryObjectCreateTime{
-    CrystLite *cache = [[CrystLite alloc] initWithObject:self];
+    CrystManager *cache = [[CrystManager alloc] initWithObject:self];
     return [cache queryCreateTime:self];
 }
 

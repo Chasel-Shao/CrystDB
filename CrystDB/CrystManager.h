@@ -1,5 +1,5 @@
 //
-// CrystLite.h
+// CrystManager.h
 // Copyright (c) 2017年 Chasel. All rights reserved.
 // https://github.com/Chasel-Shao/CrystDB.git
 //
@@ -25,18 +25,18 @@
 #import <UIKit/UIKit.h>
 
 /**
- CrystLite is a thread-safe Object Relational Mapping database that stores object based on SQLite.
+ CrystDB is a thread-safe Object Relational Mapping database that stores object based on SQLite.
  
- CrystLite has these features:
+ CrystDB has these features:
   * It can automatically transform the property type of an object to storage sqlite type  for each object 
  to get better performance.
   * Uses the class to sort object and is not affected by modifying the class structure.
   * Supports filtering by conditions.
  
  */
-@protocol CrystLite;
+@protocol CrystDB;
 NS_ASSUME_NONNULL_BEGIN
-@interface CrystLite : NSObject
+@interface CrystManager : NSObject
 /**
  The current database name and is read only.
  */
@@ -59,24 +59,24 @@ NS_ASSUME_NONNULL_BEGIN
 ///---------------------
 
 /**
- Creates and returns a `CrystLite` instance which have a default database name.
+ Creates and returns a `CrystManager` instance which have a default database name.
  */
-+ (nonnull instancetype)defaultCrystLite;
++ (nonnull instancetype)defaultCrystDB;
 
 /**
- Initializes a `CrystLite` instance with the specified database name.
+ Initializes a `CrystManager` instance with the specified database name.
 
  @param dbName The database name for the instance
- @return The newly-initiailized `CrystLite` instance
+ @return The newly-initiailized `CrystManager` instance
  */
 - (nonnull instancetype)initWithName:(nullable NSString *)dbName __attribute__((nonnull));
 
 /**
-  Initializes a `CrystLite` instance with the same database with a existed object which has confirmed the
- 'CrystLiteName' method, if the object does not confirmed the `CrystLiteName` method, it returns a default database.
+  Initializes a `CrystManager` instance with the same database with a existed object which has confirmed the
+ 'CrystDBName' method, if the object does not confirmed the `CrystDBName` method, it returns a default database.
 
- @param object The object has confirmed 'CrystLiteName' method
- @return The newly-initiailized `CrystLite` instance
+ @param object The object has confirmed 'CrystDBName' method
+ @return The newly-initiailized `CrystManager` instance
  */
 - (nonnull instancetype)initWithObject:(nullable id)object __attribute__((nonnull));
 
@@ -85,27 +85,27 @@ NS_ASSUME_NONNULL_BEGIN
 ///-----------------------
 
 /**
- Inserts an object in database, the object shoud confirm the `CrystLite` protocol,
- it is better to implement the `CrystLitePrimaryKey` to assign a property as a primary key.
+ Inserts an object in database, the object shoud confirm the `CrystDB` protocol,
+ it is better to implement the `CrystDBPrimaryKey` to assign a property as a primary key.
  
  The table where the object be stored is according to the object of the class.If the table
  does not have the object, the object will be inserted to the table, whereas, if the table
  does have the object, the current object will update the former object anyway.
  
- @param object It is better for the `objet` to confirm the `CrystLite` protocol
+ @param object It is better for the `objet` to confirm the `CrystDB` protocol
  @return Whether insert or update success
  */
-- (BOOL)addOrUpdateObject:(nonnull id<CrystLite>)object;
+- (BOOL)addOrUpdateObject:(nonnull id<CrystDB>)object;
 
 /**
  Inserts an object in database,it looks like the `addOrUpdateObject:` method, but if the 
  object has already in the table of this object class, the current object will not update the
  former object in this table.
 
- @param object It is better for the `objet` to confirm the `CrystLite` protocol
+ @param object It is better for the `objet` to confirm the `CrystDB` protocol
  @return Whether insert or update success
  */
-- (BOOL)addOrIgnoreObject:(nonnull id<CrystLite>)object;
+- (BOOL)addOrIgnoreObject:(nonnull id<CrystDB>)object;
 
 /**
  Inserts an object by the dictioanry, which have the keys corresponding to the properties 
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///-----------------------
 
 /**
- Deletes an object from table, the object should imaplement the method of `CrystLitePrimaryKey` 
+ Deletes an object from table, the object should imaplement the method of `CrystDBPrimaryKey`
  and have the primary value to appoint the specific object in the table of this object, 
  whereas the object can not be deleted from the table.
 
@@ -285,7 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 
-@protocol CrystLite <NSObject>
+@protocol CrystDB <NSObject>
 @optional
 
 /**
@@ -295,14 +295,14 @@ NS_ASSUME_NONNULL_END
  
  @return Whether prase super class
  */
-+ (BOOL) CrystLiteObjectIsHasSuperClass;
++ (BOOL)CrystDBObjectIsHasSuperClass;
 
 /**
  Creates an specific db to store this type object.
  
  @return A string of the database name
  */
-+ (nonnull NSString *)CrystLiteName;
++ (nonnull NSString *)CrystDBName;
 
 /**
  Assigns the primary key for the object, if this method is not implemented,
@@ -310,7 +310,7 @@ NS_ASSUME_NONNULL_END
  
  @return A string of primary key
  */
-+ (nonnull NSString *)CrystLitePrimaryKey;
++ (nonnull NSString *)CrystDBPrimaryKey;
 
 /**
  If a property is not in the whitelist, it will be ignored in store process.
@@ -318,7 +318,7 @@ NS_ASSUME_NONNULL_END
  
  @return An array of property's name
  */
-+ (nonnull NSArray<NSString *> *)CrystLiteWhitelistProperties;
++ (nonnull NSArray<NSString *> *)CrystDBWhitelistProperties;
 
 /**
  All the properties in blacklist will be ignored in store process.
@@ -326,7 +326,7 @@ NS_ASSUME_NONNULL_END
  
  @return An array of property's name
  */
-+ (nonnull NSArray<NSString *> *)CrystLiteBlacklistProperties;
++ (nonnull NSArray<NSString *> *)CrystDBBlacklistProperties;
 @end
 
 

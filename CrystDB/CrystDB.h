@@ -28,7 +28,7 @@
 FOUNDATION_EXPORT double CrystDBVersionNumber;
 FOUNDATION_EXPORT const unsigned char CrystDBVersionString[];
 
-#import "CrystLite.h"
-#import "NSObject+Cryst.h"
+#import "CrystManager.h"
+#import "NSObject+CrystDB.h"
 
 #endif /* _CrystDB_ */

@@ -1,5 +1,5 @@
 //
-// NSObject+Cryst.h
+// NSObject+CrystDB.h
 // Copyright (c) 2017年 Chasel. All rights reserved.
 // https://github.com/Chasel-Shao/CrystDB.git
 //
@@ -23,10 +23,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CrystLite.h"
+#import "CrystManager.h"
 
-@class CrystLite;
-@interface NSObject (Cryst) <CrystLite>
+@class CrystManager;
+@interface NSObject (CrystDB) <CrystDB>
 
 ///----------------------------------
 /// @name Insert and Update Operation
@@ -137,7 +137,7 @@
 
  @param block The operations are operated in the block
  */
-+ (void)cs_inTransaction:(void (^)(CrystLite *db, BOOL *rollback))block;
++ (void)cs_inTransaction:(void (^)(CrystManager *db, BOOL *rollback))block;
 
 
 @end

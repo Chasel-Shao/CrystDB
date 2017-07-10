@@ -11,10 +11,10 @@
 		F321DF341F0B55FD008CEDFA /* CrystDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D114071F06152400FF82B8 /* CrystDB.framework */; };
 		F321DF3B1F0B5675008CEDFA /* AddOrUpdateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */; };
 		F3D114181F06154E00FF82B8 /* CrystDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114131F06154E00FF82B8 /* CrystDB.h */; };
-		F3D114191F06154E00FF82B8 /* CrystLite.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114141F06154E00FF82B8 /* CrystLite.h */; };
-		F3D1141A1F06154E00FF82B8 /* CrystLite.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114151F06154E00FF82B8 /* CrystLite.m */; };
-		F3D1141B1F06154E00FF82B8 /* NSObject+Cryst.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114161F06154E00FF82B8 /* NSObject+Cryst.h */; };
-		F3D1141C1F06154E00FF82B8 /* NSObject+Cryst.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114171F06154E00FF82B8 /* NSObject+Cryst.m */; };
+		F3D114191F06154E00FF82B8 /* CrystManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114141F06154E00FF82B8 /* CrystManager.h */; };
+		F3D1141A1F06154E00FF82B8 /* CrystManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114151F06154E00FF82B8 /* CrystManager.m */; };
+		F3D1141B1F06154E00FF82B8 /* NSObject+CrystDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114161F06154E00FF82B8 /* NSObject+CrystDB.h */; };
+		F3D1141C1F06154E00FF82B8 /* NSObject+CrystDB.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114171F06154E00FF82B8 /* NSObject+CrystDB.m */; };
 		F3D114231F0615E900FF82B8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D114221F0615E900FF82B8 /* libsqlite3.0.tbd */; };
 /* End PBXBuildFile section */
 
@@ -35,10 +35,10 @@
 		F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrUpdateTest.m; sourceTree = "<group>"; };
 		F3D114071F06152400FF82B8 /* CrystDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrystDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D114131F06154E00FF82B8 /* CrystDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystDB.h; sourceTree = "<group>"; };
-		F3D114141F06154E00FF82B8 /* CrystLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystLite.h; sourceTree = "<group>"; };
-		F3D114151F06154E00FF82B8 /* CrystLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrystLite.m; sourceTree = "<group>"; };
-		F3D114161F06154E00FF82B8 /* NSObject+Cryst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Cryst.h"; sourceTree = "<group>"; };
-		F3D114171F06154E00FF82B8 /* NSObject+Cryst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Cryst.m"; sourceTree = "<group>"; };
+		F3D114141F06154E00FF82B8 /* CrystManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystManager.h; sourceTree = "<group>"; };
+		F3D114151F06154E00FF82B8 /* CrystManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrystManager.m; sourceTree = "<group>"; };
+		F3D114161F06154E00FF82B8 /* NSObject+CrystDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CrystDB.h"; sourceTree = "<group>"; };
+		F3D114171F06154E00FF82B8 /* NSObject+CrystDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CrystDB.m"; sourceTree = "<group>"; };
 		F3D1141E1F06159100FF82B8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3D114221F0615E900FF82B8 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -97,10 +97,10 @@
 			isa = PBXGroup;
 			children = (
 				F3D114131F06154E00FF82B8 /* CrystDB.h */,
-				F3D114141F06154E00FF82B8 /* CrystLite.h */,
-				F3D114151F06154E00FF82B8 /* CrystLite.m */,
-				F3D114161F06154E00FF82B8 /* NSObject+Cryst.h */,
-				F3D114171F06154E00FF82B8 /* NSObject+Cryst.m */,
+				F3D114141F06154E00FF82B8 /* CrystManager.h */,
+				F3D114151F06154E00FF82B8 /* CrystManager.m */,
+				F3D114161F06154E00FF82B8 /* NSObject+CrystDB.h */,
+				F3D114171F06154E00FF82B8 /* NSObject+CrystDB.m */,
 			);
 			name = CrystDB;
 			path = ../CrystDB;
@@ -129,9 +129,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D114191F06154E00FF82B8 /* CrystLite.h in Headers */,
+				F3D114191F06154E00FF82B8 /* CrystManager.h in Headers */,
 				F3D114181F06154E00FF82B8 /* CrystDB.h in Headers */,
-				F3D1141B1F06154E00FF82B8 /* NSObject+Cryst.h in Headers */,
+				F3D1141B1F06154E00FF82B8 /* NSObject+CrystDB.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,8 +244,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D1141A1F06154E00FF82B8 /* CrystLite.m in Sources */,
-				F3D1141C1F06154E00FF82B8 /* NSObject+Cryst.m in Sources */,
+				F3D1141A1F06154E00FF82B8 /* CrystManager.m in Sources */,
+				F3D1141C1F06154E00FF82B8 /* NSObject+CrystDB.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +426,7 @@
 				F321DF391F0B55FD008CEDFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3D114011F06152400FF82B8 /* Build configuration list for PBXProject "CrystDB" */ = {
 			isa = XCConfigurationList;

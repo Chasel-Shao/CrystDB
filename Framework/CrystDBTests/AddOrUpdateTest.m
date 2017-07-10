@@ -22,15 +22,20 @@
 @implementation AddOrUpdateTest
 
 -(void)test{
+    
+    CrystManager *mananger = [CrystManager defaultCrystDB];
+    mananger.isDebug = YES;
+    
     Person *p = [[Person alloc] init];
     p.uid = 123;
     p.name = @"Ares";
     
-    BOOL result = [p cs_addOrUpdateToDB];
+    BOOL result = [mananger addOrUpdateObject:p];
     XCTAssert(result);
     
     NSArray *array = [Person cs_queryObjectsWithCondition:nil];
     NSLog(@"%@",array);
+    
     
 }
 

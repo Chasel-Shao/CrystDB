@@ -1,5 +1,5 @@
 //
-// CrystLite.m
+// CrystManager.m
 // Copyright (c) 2017年 Chasel. All rights reserved.
 // https://github.com/Chasel-Shao/CrystDB.git
 //
@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-#import "CrystLite.h"
+#import "CrystManager.h"
 #import <objc/runtime.h>
 #import <CommonCrypto/CommonDigest.h>
 #if __has_include(<sqlite3.h>)
@@ -31,11 +31,11 @@
 #import "sqlite3.h"
 #endif
 
-#define kCrystLitePrefix @"Cryst"
-#define kDefaultCrystLiteName @"CrystLite.db"
+#define kCrystDBPrefix @"Cryst"
+#define kDefaultCrystDBName @"cryst.db"
 #define CSLog(...) printf("%s\n", [[NSString stringWithFormat:__VA_ARGS__] UTF8String])
 
-@interface CrystLite(){
+@interface CrystManager(){
     sqlite3 *_db;
     BOOL _inTransaction;
     NSMutableArray *_propAttrValueOfObjectArray;
@@ -50,26 +50,26 @@
 }
 @end
 
-@implementation CrystLite
+@implementation CrystManager
 static NSMutableDictionary *_singletonDBDict = nil;
 
 + (void)load{
     NSString *basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *dbDir = [basePath stringByAppendingPathComponent:kCrystLitePrefix];
+    NSString *dbDir = [basePath stringByAppendingPathComponent:kCrystDBPrefix];
     NSFileManager *mananger = [NSFileManager defaultManager];
-    BOOL isDir;
+    BOOL isDir = NO;
     BOOL isExist =  [mananger fileExistsAtPath:dbDir isDirectory:&isDir];
-    if (!isExist && isDir) {
+    if (!(isExist == YES && isDir == YES)) {
         [mananger createDirectoryAtPath:dbDir withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    CSLog(@"Default CrystLite dir : %@",dbDir);
+    CSLog(@"Default CrystDB Dir : %@",dbDir);
 }
 
-+ (instancetype)defaultCrystLite{
-    static CrystLite *cache = nil;
++ (instancetype)defaultCrystDB{
+    static CrystManager *cache = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        cache  = [[CrystLite alloc] initWithName:kDefaultCrystLiteName];
+        cache  = [[CrystManager alloc] initWithName:kDefaultCrystDBName];
     });
     return cache;
 }
@@ -82,10 +82,10 @@ static NSMutableDictionary *_singletonDBDict = nil;
 }
 
 - (instancetype)initWithObject:(id)object{
-    if ([[object class] respondsToSelector:@selector(CrystLiteName)]) {
-        _dbName = [[object class] CrystLiteName];
+    if ([[object class] respondsToSelector:@selector(CrystDBName)]) {
+        _dbName = [[object class] CrystDBName];
     }else{
-        _dbName = kDefaultCrystLiteName;
+        _dbName = kDefaultCrystDBName;
     }
     return  [self initWithName:_dbName];
 }
@@ -97,7 +97,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
 
 - (instancetype)init{
     if (self = [super init]) {
-        if (_dbName == nil) _dbName = kDefaultCrystLiteName;
+        if (_dbName == nil) _dbName = kDefaultCrystDBName;
         NSMutableDictionary *dbDict = [self singletonDBDict];
         if (dbDict[_dbName]) {
             return dbDict[_dbName];
@@ -116,7 +116,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
 }
 
 #pragma mark instance method
-- (BOOL)addOrUpdateObject:(id<CrystLite>)object{
+- (BOOL)addOrUpdateObject:(id<CrystDB>)object{
     if (object == nil) return NO;
     NSString *primaryKey = [self _primaryKeyWithObject:object];
     [self _initialParams:object];
@@ -136,7 +136,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     return result;
 }
 
-- (BOOL)addOrIgnoreObject:(id<CrystLite>)object{
+- (BOOL)addOrIgnoreObject:(id<CrystDB>)object{
     if (object == nil) return NO;
     NSString *primaryKey = [self _primaryKeyWithObject:object];
     [self _initialParams:object];
@@ -407,7 +407,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     NSMutableArray *tableArray = [NSMutableArray array];
     while ([self __nextWithError:nil withStatement:stmt]) {
         NSString *tableName =  [self __objectForColumnIndex:0 withStatement:stmt];
-        if (![tableName isEqualToString:@"cscache_sys_class"]) {
+        if (![tableName isEqualToString:@"cryst_sys_class"]) {
             [tableArray addObject:tableName];
         }
     }
@@ -422,7 +422,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     }
     if (isOk) {
         [self __commit];
-        [self __executeUpdate:@"delete from cscache_sys_class"];
+        [self __executeUpdate:@"delete from cryst_sys_class"];
         return YES;
     }else{
         [self __rollback];
@@ -436,13 +436,13 @@ static NSMutableDictionary *_singletonDBDict = nil;
     if (tableName == nil)  return NO;
     BOOL result =  [self __executeUpdate:[NSString stringWithFormat:@"drop table if exists '%@'",tableName]];
     if (result) {
-        return [self __executeUpdate:[NSString stringWithFormat:@"delete from cscache_sys_class where table_name = '%@'",tableName]];
+        return [self __executeUpdate:[NSString stringWithFormat:@"delete from cryst_sys_class where table_name = '%@'",tableName]];
     }
     return NO;
 }
 
 - (BOOL)clearRedundancy{
-    sqlite3_stmt *stmt = [self __prepareStmt:@"select table_name from cscache_sys_class group by class_name having count(class_name) > 1 "];
+    sqlite3_stmt *stmt = [self __prepareStmt:@"select table_name from cryst_sys_class group by class_name having count(class_name) > 1 "];
     NSMutableArray *delTableArray = [NSMutableArray array];
     NSMutableArray *normalTableArray = [NSMutableArray array];
     while ([self __nextWithError:nil withStatement:stmt]) {
@@ -454,7 +454,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
         NSArray *componet = [tableName componentsSeparatedByString:@"_"];
         if (componet.count > 2) {
             NSString *className = [componet objectAtIndex:1];
-            NSString *sql = [NSString stringWithFormat:@"select table_name from cscache_sys_class where table_name != '%@' and lower(class_name) = '%@'",tableName,className];
+            NSString *sql = [NSString stringWithFormat:@"select table_name from cryst_sys_class where table_name != '%@' and lower(class_name) = '%@'",tableName,className];
             sqlite3_stmt *stmt = [self __prepareStmt:sql];
             while ([self __nextWithError:nil withStatement:stmt]) {
                 NSString *delTableName =   [self __objectForColumnIndex:0 withStatement:stmt];
@@ -469,7 +469,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
         BOOL result =  [self __executeUpdate:[NSString stringWithFormat:@"drop table if exists '%@'",tableName]];
         if (!result) { isOk = NO; }
     }
-    BOOL delSysResult = [self __executeUpdate:[NSString stringWithFormat:@"delete from cscache_sys_class where table_name in ('%@')",[delTableArray componentsJoinedByString:@"','"]]];
+    BOOL delSysResult = [self __executeUpdate:[NSString stringWithFormat:@"delete from cryst_sys_class where table_name in ('%@')",[delTableArray componentsJoinedByString:@"','"]]];
     if (isOk && delSysResult) {
         [self __commit];
         return YES;
@@ -494,7 +494,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     return [self __executeUpdate:mutableSql];
 }
 - (void)_initSysTable{
-    NSString *sql = @"pragma journal_mode = wal; pragma synchronous = normal;create table if not exists cscache_sys_class(table_name text primary key,class_name text,create_time integer);";
+    NSString *sql = @"pragma journal_mode = wal; pragma synchronous = normal;create table if not exists cryst_sys_class(table_name text primary key,class_name text,create_time integer);";
     [self __executeUpdate:sql];
 }
 
@@ -503,7 +503,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     NSString *tableName = [self _tableNameWithClass:class];
     NSString *className = NSStringFromClass(class);
     NSInteger createTime = (NSInteger)time(NULL);
-    NSString *sql = [NSString stringWithFormat:@"insert or replace into cscache_sys_class(table_name,class_name,create_time) values('%@','%@',%ld)",tableName,className,(long)createTime];
+    NSString *sql = [NSString stringWithFormat:@"insert or replace into cryst_sys_class(table_name,class_name,create_time) values('%@','%@',%ld)",tableName,className,(long)createTime];
     [self __executeUpdate:sql];
 }
 
@@ -557,12 +557,12 @@ static NSMutableDictionary *_singletonDBDict = nil;
     return  [self _primaryKeyWithObject:[[className alloc] init]];
 }
 
-- (NSString *)_primaryKeyWithObject:(id<CrystLite>)object{
+- (NSString *)_primaryKeyWithObject:(id<CrystDB>)object{
     if ([[self tbNameToPKeyMap] objectForKey:NSStringFromClass([object class])]) {
         return [[self tbNameToPKeyMap] objectForKey:NSStringFromClass([object class])];
     }
-    if ([[object class] respondsToSelector:@selector(CrystLitePrimaryKey)]) {
-        NSString *primaryKey =  [[object class] CrystLitePrimaryKey];
+    if ([[object class] respondsToSelector:@selector(CrystDBPrimaryKey)]) {
+        NSString *primaryKey =  [[object class] CrystDBPrimaryKey];
         if (primaryKey != nil && primaryKey.length > 0) {
             [[self tbNameToPKeyMap] setObject:primaryKey forKey:NSStringFromClass([object class])];
             return primaryKey;
@@ -638,8 +638,8 @@ static NSMutableDictionary *_singletonDBDict = nil;
 - (void)_initialParams:(id)object{
     dispatch_sync(_workQueue, ^{
         BOOL isCompriseSuperClass = NO;
-        if([[object class] respondsToSelector:@selector(CrystLiteObjectIsHasSuperClass)]){
-            isCompriseSuperClass = [[object class] CrystLiteObjectIsHasSuperClass];
+        if([[object class] respondsToSelector:@selector(CrystDBObjectIsHasSuperClass)]){
+            isCompriseSuperClass = [[object class] CrystDBObjectIsHasSuperClass];
         }
         // Class objectClass = object_getClass(object); //kvo 之后的类发生变化
         Class objectClass = [object class];
@@ -716,8 +716,8 @@ static NSMutableDictionary *_singletonDBDict = nil;
     _blacklistSet =  [[self classWithBlackOrWhitePropertiesDict] objectForKey:className];
     if (_blacklistSet == nil) {
         _blacklistSet = [NSMutableSet setWithArray:@[@"hash",@"superclass",@"description",@"debugDescription"]];
-        if ([[object class] respondsToSelector:@selector(CrystLiteBlacklistProperties)]) {
-            NSArray *blacklist = [[object class] CrystLiteBlacklistProperties];
+        if ([[object class] respondsToSelector:@selector(CrystDBBlacklistProperties)]) {
+            NSArray *blacklist = [[object class] CrystDBBlacklistProperties];
             [_blacklistSet addObjectsFromArray:blacklist];
         }
         [[self classWithBlackOrWhitePropertiesDict] setObject:_blacklistSet forKey:className];
@@ -730,8 +730,8 @@ static NSMutableDictionary *_singletonDBDict = nil;
     _whitelistSet =  [[self classWithBlackOrWhitePropertiesDict] objectForKey:className];
     if (_whitelistSet == nil) {
         _whitelistSet = [NSMutableSet set];
-        if ([[object class] respondsToSelector:@selector(CrystLiteWhitelistProperties)]) {
-            NSArray *whitelist = [[object class] CrystLiteWhitelistProperties];
+        if ([[object class] respondsToSelector:@selector(CrystDBWhitelistProperties)]) {
+            NSArray *whitelist = [[object class] CrystDBWhitelistProperties];
             [_whitelistSet addObjectsFromArray:whitelist];
         }
         [[self classWithBlackOrWhitePropertiesDict] setObject:_whitelistSet forKey:className];
@@ -747,7 +747,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
 }
 
 - (BOOL)_isAcceptPropertyWithObject:(id)object propertyName:(NSString *)propertyName{
-    if ([[object class] respondsToSelector:@selector(CrystLiteWhitelistProperties)]) {// white list
+    if ([[object class] respondsToSelector:@selector(CrystDBWhitelistProperties)]) {// white list
         if([[self _whitelist:object] containsObject:propertyName]){
             // go through
         }else{
@@ -883,7 +883,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     NSString *tableName = [[self classFingerPrintDict] objectForKey:NSStringFromClass(class)];
     if (tableName == nil) {
         NSString *objectFingerPrint = [NSString stringWithFormat:@"%@%@",[self _classFingerPrint:class],[self _protocolFingerPrint:class]];
-        tableName =  [NSString stringWithFormat:@"%@_%@_%@",kCrystLitePrefix,[NSStringFromClass(class) lowercaseString],[self _md5:objectFingerPrint]];
+        tableName =  [NSString stringWithFormat:@"%@_%@_%@",kCrystDBPrefix,[NSStringFromClass(class) lowercaseString],[self _md5:objectFingerPrint]];
         [[self classFingerPrintDict] setObject:tableName forKey:NSStringFromClass(class)];
     }
     return tableName;
@@ -911,25 +911,25 @@ static NSMutableDictionary *_singletonDBDict = nil;
     NSMutableString *protocolTypeStr = [NSMutableString string];
     // 1. is contain the super class proerties
     BOOL isCompriseSuperClass = NO;
-    if ([[object class] respondsToSelector:@selector(CrystLiteObjectIsHasSuperClass)]) {
-        isCompriseSuperClass  = [[object class] CrystLiteObjectIsHasSuperClass];
+    if ([[object class] respondsToSelector:@selector(CrystDBObjectIsHasSuperClass)]) {
+        isCompriseSuperClass  = [[object class] CrystDBObjectIsHasSuperClass];
     }
     [protocolTypeStr appendFormat:@"isCompriseSuperClass=%d",isCompriseSuperClass];
     // 2. whether have primary key
-    if ([[object class] respondsToSelector:@selector(CrystLitePrimaryKey)]) {
-        NSString *primaryKey =  [[object class] CrystLitePrimaryKey];
+    if ([[object class] respondsToSelector:@selector(CrystDBPrimaryKey)]) {
+        NSString *primaryKey =  [[object class] CrystDBPrimaryKey];
         [protocolTypeStr appendFormat:@"CrystPrimaryKey=%@",primaryKey];
     }else{
         [protocolTypeStr appendFormat:@"CrystPrimaryKey=%@",@"object_id"]; // defalut primary key is object_id
     }
     // 3. whether have white list
-    if ([[object class] respondsToSelector:@selector(CrystLiteWhitelistProperties)]) {
-        NSArray *whitelist = [[object class] CrystLiteWhitelistProperties];
+    if ([[object class] respondsToSelector:@selector(CrystDBWhitelistProperties)]) {
+        NSArray *whitelist = [[object class] CrystDBWhitelistProperties];
         [protocolTypeStr appendFormat:@"CrystWhitelistProperties=%@",whitelist];
     }
     // 4. whether have black list
-    if ([[object class] respondsToSelector:@selector(CrystLiteBlacklistProperties)]) {
-        NSArray *blacklist = [[object class] CrystLiteBlacklistProperties];
+    if ([[object class] respondsToSelector:@selector(CrystDBBlacklistProperties)]) {
+        NSArray *blacklist = [[object class] CrystDBBlacklistProperties];
         [protocolTypeStr appendFormat:@"CrystBlacklistProperties=%@",blacklist];
     }
     return protocolTypeStr;
@@ -1067,7 +1067,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     sqlite3_shutdown();
     sqlite3_config(SQLITE_CONFIG_SERIALIZED);
     
-    NSString *dbPath =  [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:kCrystLitePrefix] stringByAppendingPathComponent:dbName];
+    NSString *dbPath =  [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:kCrystDBPrefix] stringByAppendingPathComponent:dbName];
     
     int result = sqlite3_open(dbPath.UTF8String, &_db);
     if (result == SQLITE_OK) {
