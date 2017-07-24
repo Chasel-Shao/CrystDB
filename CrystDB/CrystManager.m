@@ -513,7 +513,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     __block NSMutableArray *accessedObjectIds = [NSMutableArray array];
     NSString *sql = nil;
     if (condition && condition.length > 0) {
-        sql = [NSString stringWithFormat:@"select * from '%@' where %@",tableName,condition];
+        sql = [NSString stringWithFormat:@"select * from '%@' %@",tableName,condition];
     }else{
         sql = [NSString stringWithFormat:@"select * from '%@'",tableName];
     }
