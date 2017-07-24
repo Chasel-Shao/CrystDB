@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param dictionary The key-values that desired to be inserted or updated in the table.
  @return Whether insert or update success
  */
-- (BOOL)addOrUpdateObject:(nonnull Class)objectClass withDict:(nonnull NSDictionary *)dictionary;
+- (BOOL)addOrUpdateWithClass:(nonnull Class)objectClass withDict:(nonnull NSDictionary *)dictionary;
 
 ///----------------------
 /// @name Query Operation

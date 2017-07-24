@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		F321DF321F0B55FD008CEDFA /* CrystDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF311F0B55FD008CEDFA /* CrystDBTests.m */; };
 		F321DF341F0B55FD008CEDFA /* CrystDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D114071F06152400FF82B8 /* CrystDB.framework */; };
-		F321DF3B1F0B5675008CEDFA /* AddOrUpdateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */; };
+		F321DF3B1F0B5675008CEDFA /* UpdateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F321DF3A1F0B5675008CEDFA /* UpdateTest.m */; };
+		F37993EC1F259668004C403A /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = F37993EB1F259668004C403A /* Person.m */; };
+		F37993EF1F25990B004C403A /* GithubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F37993EE1F25990B004C403A /* GithubUser.m */; };
+		F37993F11F25A31A004C403A /* QueryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F37993F01F25A31A004C403A /* QueryTest.m */; };
+		F37993F51F25A5B5004C403A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F37993F41F25A5B5004C403A /* logo.png */; };
 		F3D114181F06154E00FF82B8 /* CrystDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114131F06154E00FF82B8 /* CrystDB.h */; };
 		F3D114191F06154E00FF82B8 /* CrystManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D114141F06154E00FF82B8 /* CrystManager.h */; };
 		F3D1141A1F06154E00FF82B8 /* CrystManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D114151F06154E00FF82B8 /* CrystManager.m */; };
@@ -32,7 +36,13 @@
 		F321DF2F1F0B55FD008CEDFA /* CrystDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrystDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F321DF311F0B55FD008CEDFA /* CrystDBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrystDBTests.m; sourceTree = "<group>"; };
 		F321DF331F0B55FD008CEDFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrUpdateTest.m; sourceTree = "<group>"; };
+		F321DF3A1F0B5675008CEDFA /* UpdateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateTest.m; sourceTree = "<group>"; };
+		F37993EA1F259668004C403A /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		F37993EB1F259668004C403A /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		F37993ED1F25990B004C403A /* GithubUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GithubUser.h; sourceTree = "<group>"; };
+		F37993EE1F25990B004C403A /* GithubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GithubUser.m; sourceTree = "<group>"; };
+		F37993F01F25A31A004C403A /* QueryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryTest.m; sourceTree = "<group>"; };
+		F37993F41F25A5B5004C403A /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		F3D114071F06152400FF82B8 /* CrystDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrystDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D114131F06154E00FF82B8 /* CrystDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystDB.h; sourceTree = "<group>"; };
 		F3D114141F06154E00FF82B8 /* CrystManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrystManager.h; sourceTree = "<group>"; };
@@ -66,7 +76,12 @@
 		F321DF301F0B55FD008CEDFA /* CrystDBTests */ = {
 			isa = PBXGroup;
 			children = (
-				F321DF3A1F0B5675008CEDFA /* AddOrUpdateTest.m */,
+				F37993EA1F259668004C403A /* Person.h */,
+				F37993EB1F259668004C403A /* Person.m */,
+				F37993ED1F25990B004C403A /* GithubUser.h */,
+				F37993EE1F25990B004C403A /* GithubUser.m */,
+				F37993F01F25A31A004C403A /* QueryTest.m */,
+				F321DF3A1F0B5675008CEDFA /* UpdateTest.m */,
 				F321DF311F0B55FD008CEDFA /* CrystDBTests.m */,
 				F321DF331F0B55FD008CEDFA /* Info.plist */,
 			);
@@ -77,8 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				F3D114121F06154E00FF82B8 /* CrystDB */,
-				F3D1141D1F06157700FF82B8 /* Supporting Files */,
 				F321DF301F0B55FD008CEDFA /* CrystDBTests */,
+				F3D1141D1F06157700FF82B8 /* Supporting Files */,
 				F3D114081F06152400FF82B8 /* Products */,
 				F3D114211F0615E800FF82B8 /* Frameworks */,
 			);
@@ -109,6 +124,7 @@
 		F3D1141D1F06157700FF82B8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F37993F41F25A5B5004C403A /* logo.png */,
 				F3D1141E1F06159100FF82B8 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -218,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F37993F51F25A5B5004C403A /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,8 +252,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F37993F11F25A31A004C403A /* QueryTest.m in Sources */,
+				F37993EC1F259668004C403A /* Person.m in Sources */,
+				F37993EF1F25990B004C403A /* GithubUser.m in Sources */,
 				F321DF321F0B55FD008CEDFA /* CrystDBTests.m in Sources */,
-				F321DF3B1F0B5675008CEDFA /* AddOrUpdateTest.m in Sources */,
+				F321DF3B1F0B5675008CEDFA /* UpdateTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

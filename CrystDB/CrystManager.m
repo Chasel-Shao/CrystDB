@@ -156,7 +156,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
     return result;
 }
 
-- (BOOL)addOrUpdateObject:(Class)class withDict:(NSDictionary *)dict{
+- (BOOL)addOrUpdateWithClass:(Class)class withDict:(NSDictionary *)dict{
     NSParameterAssert(class);
     if (dict == nil)   return NO;
     NSString *primaryKey = [self _primaryKeyWithClass:class];
@@ -1052,7 +1052,7 @@ static NSMutableDictionary *_singletonDBDict = nil;
         }else if (classType == [NSDictionary class]) {
             return @"blob";
         }else if (classType == [NSDate class]) {
-            return @"integer";
+            return @"blob";
         }else {
             return @"blob";
         }

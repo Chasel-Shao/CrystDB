@@ -41,7 +41,7 @@
 
 +(BOOL)cs_addOrUpdateToDBWithDict:(NSDictionary *)dict{
     CrystManager *cache = [[CrystManager alloc] initWithObject:[[[self class] alloc] init]];
-    return [cache addOrUpdateObject:[self class] withDict:dict];
+    return [cache addOrUpdateWithClass:self withDict:dict];
 }
 
 -(BOOL)cs_deleteFromDB{
