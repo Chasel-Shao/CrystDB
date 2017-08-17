@@ -8,12 +8,12 @@ CrystDB
 
 Introduce
 ==============
-A thread-safe Object Relational Mapping database that stores objects based on SQLite. However it's lightweight but high performance. Futhermore, when dealing with simple data object, it displays rapid processing rate in regard of the execution of both querying and adding, so it's an alternertive to Realm and Core Data.
+CrystDB is a thread-safe and convenient Object Relational Mapping database that based on SQLite. It's lightweight and high-efficiency. When dealing with simple data object, it has processing speed especially in the aspect of the operation of query and storage. It's a fabulous alternative to Realm and Core Data.
 
 Features
 ==============
 
-- **Lightweight**: Less soruce files, easily and conveniently to use
+- **Lightweight**: Less source files, easily and conveniently to use
 - **Noninvasive**: No need to inherit other base class or use other auxiliary class
 - **Supported Type**: Support almost all of the types of Objective-C and C
 - **Safe Mapping**: Check every object types and can be safe in conversion between the SQLite and Objective-C
